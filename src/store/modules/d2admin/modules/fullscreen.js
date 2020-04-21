@@ -1,44 +1,44 @@
-import screenfull from 'screenfull'
+import screenfull from 'screenfull';
 
 export default {
   namespaced: true,
   state: {
     // 全屏激活
-    active: false
+    active: false,
   },
   actions: {
     /**
      * @description 初始化监听
      */
-    listen ({ commit, dispatch }) {
-      return new Promise(resolve => {
+    listen({ commit }) {
+      return new Promise((resolve) => {
         if (screenfull.enabled) {
           screenfull.on('change', async () => {
             if (!screenfull.isFullscreen) {
-              commit('set', false)
+              commit('set', false);
             }
-          })
+          });
         }
         // end
-        resolve()
-      })
+        resolve();
+      });
     },
     /**
      * @description 切换全屏
      */
-    toggle ({ commit }) {
-      return new Promise(resolve => {
+    toggle({ commit }) {
+      return new Promise((resolve) => {
         if (screenfull.isFullscreen) {
-          screenfull.exit()
-          commit('set', false)
+          screenfull.exit();
+          commit('set', false);
         } else {
-          screenfull.request()
-          commit('set', true)
+          screenfull.request();
+          commit('set', true);
         }
         // end
-        resolve()
-      })
-    }
+        resolve();
+      });
+    },
   },
   mutations: {
     /**
@@ -46,8 +46,8 @@ export default {
      * @param {Object} state vuex state
      * @param {Boolean} active active
      */
-    set (state, active) {
-      state.active = active
-    }
-  }
-}
+    set(state, active) {
+      state.active = active;
+    },
+  },
+};
