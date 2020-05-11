@@ -39,8 +39,14 @@ export default {
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
             // token 代表用户当前登录状态 建议在网络请求中携带 token
             // 如有必要 token 需要定时更新，默认保存一天
-            util.cookies.set('acl_token', res.token);
+            if (/\.imgo\.tv/.test(window.location.host)) {
+              util.cookies.set('acl_token', res.token, { domain: '.imgo.tv', path: '/' });
+            } else {
+              util.cookies.set('acl_token', res.token);
+            }
             util.cookies.set('uuid', userDo.id);
+            util.cookies.set('userAccount', userDo.userAccount);
+            util.cookies.set('nickName', userDo.nickName);
 
             if (res.menuList && res.menuList.length === 0) {
               MessageBox.alert('您的账号未分配权限,请联系管理员', '提示', {
@@ -102,7 +108,11 @@ export default {
        */
       async function logout() {
         // 删除cookie
-        util.cookies.remove('acl_token');
+        if (/\.imgo\.tv/.test(window.location.host)) {
+          util.cookies.set('acl_token', '', { domain: '.imgo.tv', path: '/' });
+        } else {
+          util.cookies.set('acl_token', '');
+        }
         util.cookies.remove('uuid');
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true });

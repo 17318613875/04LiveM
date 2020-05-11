@@ -81,7 +81,11 @@ service.interceptors.response.use(
     } else if (code === 1004 || code === 1006) {
       if (!isTrue) {
         isTrue = true;
-        util.cookies.remove('acl_token');
+        if (/\.imgo\.tv/.test(window.location.host)) {
+          util.cookies.set('acl_token', '', { domain: '.imgo.tv', path: '/' });
+        } else {
+          util.cookies.set('acl_token', '');
+        }
         util.cookies.remove('uuid');
         // 清空 vuex 用户信息
         store.dispatch('d2admin/user/set', {}, { root: true });
