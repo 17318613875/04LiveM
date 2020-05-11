@@ -39,15 +39,23 @@
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="userPassword">
-                  <el-input type="password" v-model="formLogin.userPassword" placeholder="密码" @keyup.enter.native="submit">
+                  <el-input
+                    type="password"
+                    v-model="formLogin.userPassword"
+                    placeholder="密码"
+                    @keyup.enter.native="submit"
+                  >
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-button size="default" @click="submit" type="primary"  class="button-login">登录</el-button>
+                <el-button size="default" @click="submit" type="primary" class="button-login">登录</el-button>
               </el-form>
             </el-card>
           </div>
-            <p flex="main:justify cross:center" class="page-login--options-tips">Tips：如需申请账号、权限变更请登录OA系统提交申请</p>
+          <p
+            flex="main:justify cross:center"
+            class="page-login--options-tips"
+          >Tips：如需申请账号、权限变更请登录OA系统提交申请</p>
         </div>
       </div>
     </div>
@@ -55,63 +63,65 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import { mapActions } from 'vuex'
+import dayjs from "dayjs";
+import { mapActions } from "vuex";
+import { InitLoad } from "@/libs/init";
 export default {
-  data () {
+  data() {
     return {
       timeInterval: null,
-      time: dayjs().format('HH:mm:ss'),
+      time: dayjs().format("HH:mm:ss"),
       // 表单
       formLogin: {
-        userAccount: '',
-        userPassword: ''
+        userAccount: "",
+        userPassword: ""
       },
       // 校验
       rules: {
         userAccount: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, message: "请输入用户名", trigger: "blur" }
         ],
         userPassword: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: "请输入密码", trigger: "blur" }
         ]
       }
-    }
+    };
   },
-  mounted () {
+  mounted() {
     this.timeInterval = setInterval(() => {
-      this.refreshTime()
-    }, 1000)
-    this.closeAll()
+      this.refreshTime();
+    }, 1000);
+    this.closeAll();
+    InitLoad.bind(this)();
   },
-  beforeDestroy () {
-    clearInterval(this.timeInterval)
+  beforeDestroy() {
+    clearInterval(this.timeInterval);
   },
   methods: {
-    ...mapActions('d2admin/account', ['login']),
-    ...mapActions('d2admin/page', ['closeAll']),
-    refreshTime () {
-      this.time = dayjs().format('HH:mm:ss')
+    ...mapActions("d2admin/account", ["login"]),
+    ...mapActions("d2admin/page", ["closeAll"]),
+    refreshTime() {
+      this.time = dayjs().format("HH:mm:ss");
     },
     /**
      * @description 接收选择一个用户快速登录的事件
      * @param {Object} user 用户信息
      */
-    handleUserBtnClick (user) {
-      this.formLogin.userAccount = user.userAccount
-      this.formLogin.userPassword = user.userPassword
-      this.submit()
+    handleUserBtnClick(user) {
+      this.formLogin.userAccount = user.userAccount;
+      this.formLogin.userPassword = user.userPassword;
+      this.submit();
     },
     /**
      * @description 提交表单
      */
     // 提交登录信息
-    submit () {
+    submit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.commit('d2admin/loading/updateLoading', {
+          this.$store.commit("d2admin/loading/updateLoading", {
             isLoading: true
-          })
+          });
           // 登录
           // 注意 这里的演示没有传验证码
           // 具体需要传递的数据请自行修改代码
@@ -120,17 +130,16 @@ export default {
             userPassword: this.formLogin.userPassword
           }).then(() => {
             // 重定向对象不存在则返回顶层路径
-            this.$store.commit('d2admin/loading/updateLoading', {
+            this.$store.commit("d2admin/loading/updateLoading", {
               isLoading: false
-            })
-            this.$router.replace('index')
-          })
-        } else {
+            });
+            this.$router.replace("index");
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -203,12 +212,12 @@ export default {
     }
   }
 
-      .page-login--content-header-title {
+  .page-login--content-header-title {
     font-size: 30px;
     font-weight: bold;
     color: #ffffff;
     margin-top: 5%;
-    }
+  }
   // 背景
   .circles {
     position: absolute;
@@ -307,7 +316,7 @@ export default {
       }
     }
   }
-  .page-login--options-tips{
+  .page-login--options-tips {
     font-size: 13px;
     line-height: 13px;
     text-align: center;

@@ -10,9 +10,7 @@ import { MessageBox } from 'element-ui';
 import router from '@/router';
 import apiModel from '@api/index';
 import util from '@/libs/util';
-import MachineMRoutes from '@/router/machine';
-import TemplateMRoutes from '@/router/template';
-import CodeMRoutes from '@/router/code';
+import { userFrameIn } from '@/router/routes';
 
 export default {
   namespaced: true,
@@ -63,30 +61,56 @@ export default {
                 },
                 { root: true }
               );
-              // 用户登录后从持久化数据加载一系列的设置
-              const menuList = [
-                {
-                  title: '机位管理',
-                  path: 'machineM',
-                  children: MachineMRoutes.map((item) => ({ path: '/machineM/' + item.path, title: item.meta.title, name: item.name })),
-                },
-                {
-                  title: '模板管理',
-                  path: 'templateM',
-                  children: TemplateMRoutes.map((item) => ({ path: '/templateM/' + item.path, title: item.meta.title, name: item.name })),
-                },
-                {
-                  title: '编码管理',
-                  path: 'codeM',
-                  children: CodeMRoutes.map((item) => ({ path: '/codeM/' + item.path, title: item.meta.title, name: item.name })),
-                },
-              ];
-              await this.commit('d2admin/menu/asideSet', menuList || []);
-              // window.localStorage['usersMenuList'] = JSON.stringify(res.data)
-              await dispatch('d2admin/user/setMenuList', res.data, {
-                root: true,
-              });
-              await dispatch('load');
+              apiModel.login
+                .AccountMenu({
+                  userId: userDo.id,
+                })
+                .then(async ({ data }) => {
+                  // 用户登录后从持久化数据加载一系列的设置
+                  const menuList = [];
+                  userFrameIn.forEach(({ path, name, children }) => {
+                    const path_ = `/${path}`;
+                    const target = data.find(({ link }) => link === path_);
+                    if (target) {
+                      const router = {
+                        title: target.menuName,
+                        path: path_,
+                        name,
+                        icon: target.icon,
+                        meta: {
+                          actionList: (target.actionList || []).map(({ actionCode, menuId, actionName, permission }) => ({ actionCode, menuId, actionName, permission })),
+                        },
+                      };
+                      if (children) {
+                        let childrenList = [];
+                        children.forEach(({ path: childPath, name: childName }) => {
+                          const path_ = `/${path}/${childPath}`;
+                          const childTarget = data.find(({ link }) => link === `/${path}/${childPath}`);
+                          console.log(childTarget, childPath, childName);
+                          childTarget &&
+                            childrenList.push({
+                              title: childTarget.menuName,
+                              path: path_,
+                              name: childName,
+                              icon: childTarget.icon,
+                              meta: {
+                                actionList: (childTarget.actionList || []).map(({ actionCode, menuId, actionName, permission }) => ({ actionCode, menuId, actionName, permission })),
+                              },
+                            });
+                        });
+                        childrenList.length && (router.children = childrenList);
+                      }
+                      menuList.push(router);
+                    }
+                  });
+                  // const menuList = data.map(({ menuName, icon, link, actionList }) => {});
+                  await this.commit('d2admin/menu/asideSet', menuList || []);
+                  // window.localStorage['usersMenuList'] = JSON.stringify(res.data)
+                  await dispatch('d2admin/user/setMenuList', menuList, {
+                    root: true,
+                  });
+                  await dispatch('load');
+                });
             }
             // 结束
             resolve();

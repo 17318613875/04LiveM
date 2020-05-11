@@ -6,5 +6,13 @@ let login = {
       data,
     });
   },
+  AccountMenu(data) {
+    return axios.post('/media/auth/permission/getMenuByUser', {
+      data: {
+        appId: process.env.VUE_APP_USER_APPID,
+        ...data,
+      },
+    });
+  },
 };
 export default login;
