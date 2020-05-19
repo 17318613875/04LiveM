@@ -20,20 +20,23 @@
 </template>
 
 <script>
+import PageHeader from "./componnets/PageHeader/index.vue";
+import PageMain from "./componnets/PageMain/index.vue";
+import PageFooter from "./componnets/PageFooter/index.vue";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
   components: {
-    PageHeader: () => import('./componnets/PageHeader'),
-    PageMain: () => import('./componnets/PageMain'),
-    PageFooter: () => import('./componnets/PageFooter')
+    PageHeader,
+    PageMain,
+    PageFooter
   },
   props: {
     action: {
-      default: 'bind'
+      default: "bind"
     }
   },
-  data () {
+  data() {
     return {
       table: [],
       loading: false,
@@ -42,33 +45,33 @@ export default {
         size: 20,
         pageTotal: 0
       }
-    }
+    };
   },
   methods: {
-    handleSelectItem (val) {
-      this.$emit('submit', val)
+    handleSelectItem(val) {
+      this.$emit("submit", val);
     },
-    handleSubmitheader () {
-      this.$refs.header.handleFormSubmit()
+    handleSubmitheader() {
+      this.$refs.header.handleFormSubmit();
     },
-    handlePaginationChange (val) {
-      this.pages = val
-      this.$refs.header.handleFormSubmit()
+    handlePaginationChange(val) {
+      this.pages = val;
+      this.$refs.header.handleFormSubmit();
     },
-    handleSubmit (form) {
-      this.loading = true
+    handleSubmit(form) {
+      this.loading = true;
       this.$model.getFuseClipsList(
         {
           ...form,
           ...this.pages
         },
         data => {
-          this.table = data.list
-          this.pages.pageTotal = data.total
-          this.loading = false
+          this.table = data.list;
+          this.pages.pageTotal = data.total;
+          this.loading = false;
         }
-      )
+      );
     }
   }
-}
+};
 </script>

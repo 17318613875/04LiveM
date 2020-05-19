@@ -1,0 +1,17 @@
+export const FormType = [
+  { key: 'id', label: 'ID', searchType: 'input' },
+  { key: 'streamId', label: '流ID', type: 'input', searchType: true, rulesKey: 'InputRule' },
+  { key: 'machineId', label: '机位ID', type: 'input', rulesKey: 'InputRule' },
+  { key: 'mainMulticast', label: '主组播地址', type: 'input', searchType: true },
+  { key: 'backupMulticast', label: '备组播地址', type: 'input', searchType: true },
+  { key: 'codeStatus', label: '编码状态', type: 'select', options: [], searchType: true },
+  { key: 'submitTime', label: '提交编码时间' },
+  { key: 'submitter', label: '提交编码者ID' },
+  { key: 'submitterName', label: '提交编码者名称' },
+  { key: 'creator', label: '创建人ID' },
+  { key: 'updater', label: '修改人ID' },
+  { key: 'creatorName', label: '创建人名称', searchType: 'input' },
+  { key: 'updaterName', label: '修改人名称', searchType: 'input' },
+  { key: 'createTime', label: '创建时间' },
+  { key: 'updateTime', label: '修改时间' },
+];

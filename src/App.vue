@@ -14,7 +14,11 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  provide: {
+    dailogWidth: '840px',
+    labelWidth: '120px'
+  }
 }
 </script>
 

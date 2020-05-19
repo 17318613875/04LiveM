@@ -86,7 +86,6 @@ export default {
                         children.forEach(({ path: childPath, name: childName }) => {
                           const path_ = `/${path}/${childPath}`;
                           const childTarget = data.find(({ link }) => link === `/${path}/${childPath}`);
-                          console.log(childTarget, childPath, childName);
                           childTarget &&
                             childrenList.push({
                               title: childTarget.menuName,
