@@ -74,12 +74,12 @@ module.exports = {
         })
       );
     // i18n
-    /* config.module
-                                      .rule('i18n')
-                                      .resourceQuery(/blockType=i18n/)
-                                      .use('i18n')
-                                      .loader('@kazupon/vue-i18n-loader')
-                                      .end() */
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end();
     // svg
     const svgRule = config.module.rule('svg');
     svgRule.uses.clear();
@@ -121,4 +121,12 @@ module.exports = {
       ];
     }
   },
+  pluginOptions: {
+    i18n: {
+      locale: 'cn',
+      fallbackLocale: 'cn',
+      localeDir: 'config',
+      enableInSFC: true
+    }
+  }
 };
