@@ -151,7 +151,8 @@ export default {
       const rules = {};
       this.formType.forEach(({ key, label, rulesKey }) => {
         formData[key] = undefined;
-        rulesKey && Object.assign(rules, Rules[rulesKey](key, label));
+        rulesKey &&
+          Object.assign(rules, Rules[rulesKey](key, label || this.$t(key)));
       });
       this.$emit("update:formData", Object.assign(formData, this.formData));
       this.required && (this.rules = rules);
