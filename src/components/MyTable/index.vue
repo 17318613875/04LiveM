@@ -3,7 +3,7 @@
     <el-table class="my-style" slot="body" border :data="tableData" v-bind="$attrs" height="100%">
       <el-table-column v-if="isCheckBox" type="selection" width="55"></el-table-column>
       <template v-for="($item, $index) in formType">
-        <el-table-column :key="$index" :prop="$item.key" :label="$item.label" width="width"></el-table-column>
+        <el-table-column :key="$index" :prop="$item.key" :label="$t($item.key)" :width="$item.width"></el-table-column>
       </template>
     </el-table>
     <el-pagination

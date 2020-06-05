@@ -13,19 +13,19 @@
         multiple,
         loading,
         readonly,
-        disabled
+        disabled,
       } in formType"
     >
       <el-form-item
         v-if="(required && type) || (!required && searchType)"
-        :label="`${label}${(multiple && '(多选)') || ''}`"
+        :label="`${label || $t(key)}${(multiple && '(多选)') || ''}`"
         :key="key"
         :prop="key"
       >
         <template v-if="type === 'input' || searchType === 'input'">
           <el-input
             v-model="formData[key]"
-            :placeholder="`请输入${label}`"
+            :placeholder="`请输入${label || $t(key)}`"
             clearable
             :disabled="disabled || !edit"
             :readonly="readonly"
@@ -35,7 +35,7 @@
           <el-input
             type="textarea"
             v-model="formData[key]"
-            :placeholder="`请输入${label}`"
+            :placeholder="`请输入${label || $t(key)}`"
             clearable
             :autosize="autosize || { minRows: 2, maxRows: 4 }"
             :disabled="disabled || !edit"
@@ -55,7 +55,7 @@
         <template v-else-if="type === 'select' || searchType === 'select'">
           <el-select
             v-model="formData[key]"
-            :placeholder="`请输入${label}`"
+            :placeholder="`请输入${label || $t(key)}`"
             clearable
             filterable
             :multiple="multiple"
@@ -75,7 +75,7 @@
         <template v-else-if="type === 'selectSearch' || searchType === 'selectSearch'">
           <el-select
             v-model="formData[key]"
-            :placeholder="`请输入${label}`"
+            :placeholder="`请输入${label || $t(key)}`"
             clearable
             filterable
             :remote="true"
@@ -164,5 +164,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
