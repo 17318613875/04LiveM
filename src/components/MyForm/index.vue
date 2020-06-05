@@ -125,8 +125,7 @@
 import * as Rules from "@/config/rules";
 export default {
   name: "MyForm",
-  props: ["formData", "formType", "required", "edit"],
-  inject: ["FormProps"],
+  props: ["formData", "formType", "required", "edit", "FormProps"],
   computed: {
     formProps: {
       get: function() {
@@ -136,7 +135,7 @@ export default {
             size: "mini",
             "label-width": "80px"
           },
-          this.FormProps
+          this.FormProps || {}
         );
       }
     }
