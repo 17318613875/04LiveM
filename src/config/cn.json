@@ -1,0 +1,15 @@
+{
+  "id": "ID",
+  "snapshot": "简介",
+  "creator": "创建人ID",
+  "updater": "修改人ID",
+  "creatorName": "创建人",
+  "updaterName": "修改人",
+  "createTime": "创建时间",
+  "updateTime": "修改时间",
+  "level": "编码级别",
+  "codeStatus": "编码状态",
+  
+  "codeParam": "编码参数",
+  "takeUpNum": "资源用量"
+}
